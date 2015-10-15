@@ -16,7 +16,7 @@ public class BombSpawner : MonoBehaviour
     {
         for (byte i = 0; i < 4; i++)
         {
-            GameObject bomb = Instantiate(bombReference, new Vector3(Random.Range(10, 30), Random.Range(-25, -35), -32), Quaternion.identity) as GameObject;
+            GameObject bomb = Instantiate(bombReference, new Vector3(Random.Range(-20, 14), Random.Range(-5, 23), 5), Quaternion.identity) as GameObject;
             bomb.GetComponent<Rigidbody>().AddForce(throwForce, ForceMode.Impulse);
         }
     }
