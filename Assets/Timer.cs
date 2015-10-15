@@ -1,34 +1,39 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Timer : MonoBehaviour
 {
-    private GUIText timeTF;
+    public GUIText timeTF;
 	public GameObject alertReference;
+    //public Button endText;
 
-    void Start()
+    public void Start()
     {
         timeTF = gameObject.GetComponent<GUIText>();
         InvokeRepeating("ReduceTime", 1, 1);
     }
     
-    void ReduceTime()
+    public void ReduceTime()
     {
         if (timeTF.text == "1")
         {
 			/* Alert */
 			
 			Time.timeScale = 0;
-			Instantiate(alertReference, new Vector3(0.5f, 0.5f, 0), transform.rotation);
-			GetComponent<AudioSource>().Play();
+            Instantiate(alertReference, new Vector3(0.5f, 0.5f, 0), transform.rotation);
+            //endText = GameObject.Find("alertReference").GetComponent<Button>();
+            GetComponent<AudioSource>().Play();
 			GameObject.Find("AppleGUI").GetComponent<AudioSource>().Stop();
+            Application.LoadLevel("endscreen");
 		}
 		
         timeTF.text = (int.Parse(timeTF.text) - 1).ToString();
+        //Application.LoadLevel("start_menu");
     }
 
-	void Reload()
-	{
-		Application.LoadLevel (Application.loadedLevel);
-	}
+	//public void Reload()
+	//{
+	//	Application.LoadLevel ("start_menu");
+	//}
 }
