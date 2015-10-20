@@ -16,7 +16,7 @@ public class FruitSpawner : MonoBehaviour
     {
         for (byte i = 0; i < 4; i++)
         {
-            GameObject fruit = Instantiate(appleReference, new Vector3(Random.Range(10, 30), Random.Range(-25, -35), -32), Quaternion.identity) as GameObject;
+            GameObject fruit = Instantiate(appleReference, new Vector3(Random.Range(12, 32), Random.Range(-27, -37), -30), Quaternion.identity) as GameObject;
             fruit.GetComponent<Rigidbody>().AddForce(throwForce, ForceMode.Impulse);
         }
     }
