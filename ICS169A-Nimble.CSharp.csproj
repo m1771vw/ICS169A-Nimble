@@ -73,8 +73,10 @@
     <Compile Include="Assets\Scripts\LinesHandler.cs" />
     <Compile Include="Assets\Scripts\MouseHandler.cs" />
     <Compile Include="Assets\Scripts\MouseLineCreator.cs" />
+    <Compile Include="Assets\Scripts\ShakeNode.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />
     <Compile Include="Assets\Scripts\StaticNode.cs" />
+    <Compile Include="Assets\Scripts\TapNode.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

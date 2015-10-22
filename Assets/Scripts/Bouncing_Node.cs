@@ -5,6 +5,7 @@ public class Bouncing_Node : MonoBehaviour
 {
     public float speed = 30;
     public float randNum = 0;
+    public float lifeTime =;
 
     void Start()
     {
@@ -12,7 +13,10 @@ public class Bouncing_Node : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = Vector2.right * speed;
     }
 
-
+    void Awake()
+    {
+        Destroy(gameObject, lifeTime);
+    }
     void OnCollisionEnter2D(Collision2D col)
     {
         randNum = Random.Range(-5, 5); 
