@@ -7,7 +7,8 @@ public class TapNode : MonoBehaviour {
     {
         Destroy(gameObject);
     }
-        // Use this for initialization
+
+    // Use this for initialization
     void Start () {
 	
 	}

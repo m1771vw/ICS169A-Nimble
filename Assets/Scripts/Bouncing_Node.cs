@@ -5,7 +5,7 @@ public class Bouncing_Node : MonoBehaviour
 {
     public float speed = 30;
     public float randNum = 0;
-    public float lifeTime =;
+    public float lifeTime;
 
     void Start()
     {
@@ -17,6 +17,7 @@ public class Bouncing_Node : MonoBehaviour
     {
         Destroy(gameObject, lifeTime);
     }
+
     void OnCollisionEnter2D(Collision2D col)
     {
         randNum = Random.Range(-5, 5); 
