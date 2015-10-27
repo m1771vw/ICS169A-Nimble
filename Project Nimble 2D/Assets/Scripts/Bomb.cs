@@ -3,16 +3,23 @@ using System.Collections;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject splashReference;
-    private Vector3 randomPos = new Vector3(Random.Range(-1, 1), Random.Range(0.3f, 0.7f), Random.Range(-6.5f, -7.5f));
 	private GUIText scoreReference;
-	
+    public float lifeTime;
+    public GameObject explosion;
+    public AudioClip[] clips;
+    private AudioClip randomSound;
+    private AudioSource ExplosionSource;
+
     void Start()
     {
-		scoreReference = GameObject.Find("Score").GetComponent<GUIText>();
+        ExplosionSource = Camera.main.transform.Find("Bomb Source").GetComponent<AudioSource>();
+        scoreReference = GameObject.Find("Score").GetComponent<GUIText>();
+        int random = Random.Range(0, clips.Length);
+        GetComponent<AudioSource>().PlayOneShot(clips[random]);
     }
-    
+
+    void Awake() { Destroy(gameObject, lifeTime); }
+
     void Update()
     {
         /* Remove fruit if out of view */
@@ -22,18 +29,15 @@ public class Bomb : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision other)
+    void OnSpriteSliced(SpriteSlicer2DSliceInfo sliceInfo)
     {
-        if(other.gameObject.name == "Line")
+        if (sliceInfo.SlicedObject)
         {
-			Camera.main.GetComponent<AudioSource>().Play();
-			Destroy(gameObject);
+            ExplosionSource.Play();
+            Vector2 savedLocation = gameObject.transform.position;
+            scoreReference.text = (int.Parse(scoreReference.text) - 5).ToString();
+            GameObject particle = Instantiate(explosion, savedLocation, Quaternion.identity) as GameObject;
 
-            Instantiate(splashReference, randomPos, transform.rotation);
-
-			/* Update Score */
-
-			scoreReference.text = (int.Parse(scoreReference.text) + -1).ToString();
         }
     }
 }

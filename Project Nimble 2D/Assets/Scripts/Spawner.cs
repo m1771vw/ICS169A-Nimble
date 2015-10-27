@@ -32,12 +32,12 @@ public class Spawner : MonoBehaviour
                                        Random.Range(topWall.transform.position.y - buffer, bottomWall.transform.position.y + buffer));
 
 
-        if (number > 98)
+        if (number > 85)
         {
             GameObject node = Instantiate(bombObject, location, Quaternion.identity) as GameObject;
            
         }
-        else if(number > 85)
+        else if(number > 65)
         {
             GameObject node = Instantiate(bouncingNode, location, Quaternion.identity) as GameObject;
         }

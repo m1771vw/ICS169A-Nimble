@@ -68,6 +68,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Bomb.cs" />
+    <Compile Include="Assets\Scripts\BombSpawner.cs" />
     <Compile Include="Assets\Scripts\Bouncing_Node.cs" />
     <Compile Include="Assets\Scripts\FadeAndDestroy.cs" />
     <Compile Include="Assets\Scripts\LinesHandler.cs" />
