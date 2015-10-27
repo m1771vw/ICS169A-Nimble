@@ -7,12 +7,19 @@ public class Bouncing_Node : MonoBehaviour
     public float speed = 30;
     public float randNum = 0;
     public float lifeTime;
+    public GameObject explosion;
+    public AudioClip[] clips;
+    public AudioClip randomSound;
+    public AudioSource cutSource;
 
     void Start()
     {
         // Initial Velocity
+        cutSource = Camera.main.transform.Find("Cut Source").GetComponent<AudioSource>();
         scoreReference = GameObject.Find("Score").GetComponent<GUIText>();
         GetComponent<Rigidbody2D>().velocity = Vector2.right * speed;
+        int random = Random.Range(0, clips.Length);
+        GetComponent<AudioSource>().PlayOneShot(clips[random]);
     }
 
     void Awake()
@@ -24,7 +31,10 @@ public class Bouncing_Node : MonoBehaviour
     {
         if (sliceInfo.SlicedObject)
         {
+            cutSource.Play();
+            Vector2 savedLocation = gameObject.transform.position;
             scoreReference.text = (int.Parse(scoreReference.text) + 1).ToString();
+            GameObject particle = Instantiate(explosion, savedLocation, Quaternion.identity) as GameObject;
         }
     }
 

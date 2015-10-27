@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\FadeAndDestroy.cs" />
     <Compile Include="Assets\Scripts\LinesHandler.cs" />
     <Compile Include="Assets\Scripts\Logger.cs" />
+    <Compile Include="Assets\Scripts\ParticleGarbageCollector.cs" />
     <Compile Include="Assets\Scripts\ShakeNode.cs" />
     <Compile Include="Assets\Scripts\SliceManager.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />

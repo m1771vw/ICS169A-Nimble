@@ -5,10 +5,19 @@ public class StaticNode : MonoBehaviour {
 
     private GUIText scoreReference;
     public float lifeTime;
+    public GameObject explosion;
+    public AudioClip[] clips;
+    public AudioClip randomSound;
+    public AudioSource cutSource;
+    public AudioClip cuttingSound;
 
     // Use this for initialization
     void Start () {
+
+        cutSource = Camera.main.transform.Find("Cut Source").GetComponent<AudioSource>();
         scoreReference = GameObject.Find("Score").GetComponent<GUIText>();
+        int random = Random.Range(0, clips.Length);
+        GetComponent<AudioSource>().PlayOneShot(clips[random]);
     }
 
     void Awake() { Destroy(gameObject, lifeTime); }
@@ -23,7 +32,11 @@ public class StaticNode : MonoBehaviour {
     {
         if (sliceInfo.SlicedObject)
         {
+            cutSource.Play();
+            Vector2 savedLocation = gameObject.transform.position;
             scoreReference.text = (int.Parse(scoreReference.text) + 1).ToString();
+            GameObject particle = Instantiate(explosion, savedLocation, Quaternion.identity) as GameObject;
+            
         }
     }
 
