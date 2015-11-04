@@ -6,10 +6,11 @@ public class StaticNode : MonoBehaviour {
     private GUIText scoreReference;
     public float lifeTime;
     public GameObject explosion;
+    public GameObject scorePopup;
     public AudioClip[] clips;
-    public AudioClip randomSound;
-    public AudioSource cutSource;
-    public AudioClip cuttingSound;
+    private AudioClip randomSound;
+    private AudioSource cutSource;
+    private AudioClip cuttingSound;
 
     // Use this for initialization
     void Start () {
@@ -36,7 +37,8 @@ public class StaticNode : MonoBehaviour {
             Vector2 savedLocation = gameObject.transform.position;
             scoreReference.text = (int.Parse(scoreReference.text) + 1).ToString();
             GameObject particle = Instantiate(explosion, savedLocation, Quaternion.identity) as GameObject;
-            
+            GameObject popup = Instantiate(scorePopup, savedLocation, Quaternion.identity) as GameObject;
+
         }
     }
 

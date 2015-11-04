@@ -7,10 +7,13 @@ public class Bouncing_Node : MonoBehaviour
     public float speed = 30;
     public float randNum = 0;
     public float lifeTime;
+    public float scoreWorth = 3;
     public GameObject explosion;
+    public GameObject scorePopup;
     public AudioClip[] clips;
-    public AudioClip randomSound;
-    public AudioSource cutSource;
+    private AudioClip randomSound;
+    private AudioSource cutSource;
+    
 
     void Start()
     {
@@ -33,8 +36,9 @@ public class Bouncing_Node : MonoBehaviour
         {
             cutSource.Play();
             Vector2 savedLocation = gameObject.transform.position;
-            scoreReference.text = (int.Parse(scoreReference.text) + 1).ToString();
+            scoreReference.text = (int.Parse(scoreReference.text) + scoreWorth).ToString();
             GameObject particle = Instantiate(explosion, savedLocation, Quaternion.identity) as GameObject;
+            GameObject popup = Instantiate(scorePopup, savedLocation, Quaternion.identity) as GameObject;
         }
     }
 

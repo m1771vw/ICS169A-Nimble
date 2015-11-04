@@ -7,6 +7,7 @@ public class Bomb : MonoBehaviour
     public float lifeTime;
     public GameObject explosion;
     public AudioClip[] clips;
+    public GameObject scorePopup;
     private AudioClip randomSound;
     private AudioSource ExplosionSource;
 
@@ -37,7 +38,7 @@ public class Bomb : MonoBehaviour
             Vector2 savedLocation = gameObject.transform.position;
             scoreReference.text = (int.Parse(scoreReference.text) - 5).ToString();
             GameObject particle = Instantiate(explosion, savedLocation, Quaternion.identity) as GameObject;
-
+            GameObject popup = Instantiate(scorePopup, savedLocation, Quaternion.identity) as GameObject;
         }
     }
 }
