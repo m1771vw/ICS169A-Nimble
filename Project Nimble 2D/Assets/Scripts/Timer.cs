@@ -5,39 +5,60 @@ using System.Collections;
 public class Timer : MonoBehaviour
 {
     private GUIText timeTF;
-	public GameObject alertReference;
-    //public Button endText;
+    public GameObject multiplayerData;
+    private SavedMultiplayerData script;
 
     public void Start()
     {
         timeTF = gameObject.GetComponent<GUIText>();
         InvokeRepeating("ReduceTime", 1, 1);
+        multiplayerData = GameObject.Find("MultiplayerData");
+        script = multiplayerData.GetComponent<SavedMultiplayerData>();
     }
     
     public void ReduceTime()
     {
+        
         if (timeTF.text == "0")
         {
-			/* Alert */
-			
-			//Time.timeScale = 0;
-            //Reload();
-            //Instantiate(alertReference, new Vector3(0.5f, 0.5f, 0), transform.rotation);
-            GetComponent<AudioSource>().Play();
-			//GameObject.Find("AppleGUI").GetComponent<AudioSource>().Stop();
-            //Application.LoadLevel(Application.loadedLevel);
-            Application.LoadLevel("endscreen");
+            int playersPassed = 0;
+            for (int i = 0; i < script.numberOfPlayers; i++)
+            {
+                if (script.getPassOrFail(i) == true)
+                {
+                    ++playersPassed;
+                    return;
+                }
+            }
+            if(playersPassed == 1)
+            {
+                //single winner
+                Application.LoadLevel(8);
+            }
+
+            //find next player loop
+            bool playerFound = false;
+            while (playerFound == false)
+            {
+                if ((script.currentPlayerInt + 1) >= script.numberOfPlayers)
+                {
+                    script.currentPlayerInt = 0;
+                }
+                //next player load
+                if (script.getPassOrFail(script.currentPlayerInt + 1) == false)
+                {
+                    script.currentPlayerInt += 1;
+                }
+                else
+                {
+                    playerFound = true;
+                    Application.LoadLevel(7);
+                }
+            }     
         }
 		
         timeTF.text = (int.Parse(timeTF.text) - 1).ToString();
-        //Invoke("Reload", 3);
-        //Reload();
-        //Application.LoadLevel("start_menu");
+
     }
 
-	public void Reload()
-	{
-
-        //Application.LoadLevel(Application.loadedLevel);
-    }
 }

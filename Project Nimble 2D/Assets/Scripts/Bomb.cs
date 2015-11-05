@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Bomb : MonoBehaviour
 {
-	private GUIText scoreReference;
+    public GameObject multiplayerData;
+    private SavedMultiplayerData data;
+    private GUIText scoreReference;
     public float lifeTime;
     public GameObject explosion;
     public AudioClip[] clips;
@@ -17,6 +19,10 @@ public class Bomb : MonoBehaviour
         scoreReference = GameObject.Find("Score").GetComponent<GUIText>();
         int random = Random.Range(0, clips.Length);
         GetComponent<AudioSource>().PlayOneShot(clips[random]);
+
+        multiplayerData = GameObject.Find("MultiplayerData");
+        data = multiplayerData.GetComponent<SavedMultiplayerData>();
+
     }
 
     void Awake() { Destroy(gameObject, lifeTime); }
@@ -34,11 +40,46 @@ public class Bomb : MonoBehaviour
     {
         if (sliceInfo.SlicedObject)
         {
+            Debug.Log("sliced");
+
             ExplosionSource.Play();
             Vector2 savedLocation = gameObject.transform.position;
             scoreReference.text = (int.Parse(scoreReference.text) - 5).ToString();
             GameObject particle = Instantiate(explosion, savedLocation, Quaternion.identity) as GameObject;
             GameObject popup = Instantiate(scorePopup, savedLocation, Quaternion.identity) as GameObject;
+
+            if (data.inMultiplayer == true)
+            {
+                Debug.Log("check start");
+                data.setFail(data.currentPlayerInt);
+                if(data.firstPlayer == data.lastPlayer)
+                {
+                    //all failed
+                    Debug.Log("all fail");
+                    Application.LoadLevel("AllFailScreen");
+                    Debug.Log("all fail");
+                }
+
+                else if(data.currentPlayerInt == data.lastPlayer)
+                {
+                    data.roundCounter++;
+                    data.currentPlayerInt = data.firstPlayer;
+                    Application.LoadLevel("Round Counter");
+                }
+
+                for (int i = data.currentPlayerInt; i < data.numberOfPlayers; i++)
+                {
+                    if (data.getPassOrFail(data.currentPlayerInt + 1) == true)
+                    {
+                        if (data.currentPlayerInt == data.firstPlayer)
+                        {
+                            data.firstPlayer = i;
+                        }
+                        data.currentPlayerInt = i;
+                        Application.LoadLevel("Fail");
+                    }    
+                }
+            }
         }
     }
 }
