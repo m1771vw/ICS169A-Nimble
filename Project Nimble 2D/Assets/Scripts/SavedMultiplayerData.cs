@@ -87,9 +87,9 @@ public class SavedMultiplayerData : MonoBehaviour {
     //set initail data
     void OnLevelWasLoaded(int level)
     {
-        if (level == 1)
+        if (level == 0)
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
         if (level == 3  && roundCounter == 1)
         {

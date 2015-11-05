@@ -6,59 +6,46 @@ public class Timer : MonoBehaviour
 {
     private GUIText timeTF;
     public GameObject multiplayerData;
-    private SavedMultiplayerData script;
+    private SavedMultiplayerData data;
 
     public void Start()
     {
         timeTF = gameObject.GetComponent<GUIText>();
         InvokeRepeating("ReduceTime", 1, 1);
         multiplayerData = GameObject.Find("MultiplayerData");
-        script = multiplayerData.GetComponent<SavedMultiplayerData>();
+        data = multiplayerData.GetComponent<SavedMultiplayerData>();
     }
     
     public void ReduceTime()
     {
         
-        if (timeTF.text == "0")
+        if (timeTF.text == "1")
         {
-            int playersPassed = 0;
-            for (int i = 0; i < script.numberOfPlayers; i++)
+            if (data.firstPlayer == data.lastPlayer)
             {
-                if (script.getPassOrFail(i) == true)
-                {
-                    ++playersPassed;
-                    return;
-                }
+                //all failed
+                Application.LoadLevel("SingleWinner");
             }
-            if(playersPassed == 1)
+            else if (data.currentPlayerInt == data.lastPlayer)
             {
-                //single winner
-                Application.LoadLevel(8);
+
+                data.roundCounter++;
+                data.currentPlayerInt = data.firstPlayer;
+                Application.LoadLevel("Round Counter");
+                return;
             }
 
-            //find next player loop
-            bool playerFound = false;
-            while (playerFound == false)
+            for (int i = data.currentPlayerInt; i < data.numberOfPlayers; i++)
             {
-                if ((script.currentPlayerInt + 1) >= script.numberOfPlayers)
+                if (data.getPassOrFail(data.currentPlayerInt + 1) == true)
                 {
-                    script.currentPlayerInt = 0;
+                    data.currentPlayerInt = i + 1;
+                    Application.LoadLevel("Pass");
+                    break;
                 }
-                //next player load
-                if (script.getPassOrFail(script.currentPlayerInt + 1) == false)
-                {
-                    script.currentPlayerInt += 1;
-                }
-                else
-                {
-                    playerFound = true;
-                    Application.LoadLevel(7);
-                }
-            }     
+            }
         }
-		
         timeTF.text = (int.Parse(timeTF.text) - 1).ToString();
-
     }
 
 }

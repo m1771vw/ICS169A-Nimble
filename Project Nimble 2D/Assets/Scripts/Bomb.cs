@@ -50,33 +50,33 @@ public class Bomb : MonoBehaviour
 
             if (data.inMultiplayer == true)
             {
-                Debug.Log("check start");
                 data.setFail(data.currentPlayerInt);
                 if(data.firstPlayer == data.lastPlayer)
                 {
                     //all failed
-                    Debug.Log("all fail");
                     Application.LoadLevel("AllFailScreen");
-                    Debug.Log("all fail");
                 }
-
                 else if(data.currentPlayerInt == data.lastPlayer)
                 {
                     data.roundCounter++;
                     data.currentPlayerInt = data.firstPlayer;
                     Application.LoadLevel("Round Counter");
+                    return;
                 }
 
                 for (int i = data.currentPlayerInt; i < data.numberOfPlayers; i++)
                 {
+                   
                     if (data.getPassOrFail(data.currentPlayerInt + 1) == true)
                     {
                         if (data.currentPlayerInt == data.firstPlayer)
                         {
-                            data.firstPlayer = i;
+                            data.firstPlayer = i + 1;
                         }
-                        data.currentPlayerInt = i;
+           
+                        data.currentPlayerInt = i + 1;
                         Application.LoadLevel("Fail");
+                        break;
                     }    
                 }
             }
