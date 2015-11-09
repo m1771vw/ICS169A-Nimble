@@ -3,20 +3,29 @@ using System.Collections;
 
 public class StaticNode : MonoBehaviour {
 
-    private GUIText scoreReference;
+    public int scoreValue;
+    private ScoreController scoreController;
     public float lifeTime;
     public GameObject explosion;
-    public GameObject scorePopup;
     public AudioClip[] clips;
-    private AudioClip randomSound;
-    private AudioSource cutSource;
-    private AudioClip cuttingSound;
+    public AudioClip randomSound;
+    public AudioSource cutSource;
+    public AudioClip cuttingSound;
+
 
     // Use this for initialization
     void Start () {
 
         cutSource = Camera.main.transform.Find("Cut Source").GetComponent<AudioSource>();
-        scoreReference = GameObject.Find("Score").GetComponent<GUIText>();
+        GameObject gameControllerObject = GameObject.Find("ScoreControllers");
+        if (gameControllerObject != null)
+        {
+            scoreController = gameControllerObject.GetComponent<ScoreController>();
+        }
+        if (scoreController == null)
+        {
+            Debug.Log("Cannot find 'ScoreController' script");
+        }
         int random = Random.Range(0, clips.Length);
         GetComponent<AudioSource>().PlayOneShot(clips[random]);
     }
@@ -35,10 +44,9 @@ public class StaticNode : MonoBehaviour {
         {
             cutSource.Play();
             Vector2 savedLocation = gameObject.transform.position;
-            scoreReference.text = (int.Parse(scoreReference.text) + 1).ToString();
+            scoreController.AddScore(scoreValue);
             GameObject particle = Instantiate(explosion, savedLocation, Quaternion.identity) as GameObject;
-            GameObject popup = Instantiate(scorePopup, savedLocation, Quaternion.identity) as GameObject;
-
+            
         }
     }
 
